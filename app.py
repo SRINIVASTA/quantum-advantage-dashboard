@@ -1,4 +1,3 @@
-import streamlit as st
 import os
 import warnings
 import secrets
@@ -15,17 +14,22 @@ import json
 # Initialize verified PyTorch engine components
 import torch
 import torch.optim as optim
+import streamlit as st
 
 st.set_page_config(layout="wide", page_title="PyTorch Quantum Industry Simulation Dashboard")
 warnings.filterwarnings("ignore")
 
+# Define target workspace file paths inside the repository
 CSV_FILE_PATH = "quantum_simulation_log.csv"
 
 # Pre-flight setup: Validate that our historical CSV data layer exists locally
 if not os.path.exists(CSV_FILE_PATH):
     with open(CSV_FILE_PATH, mode='w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow(["Timestamp", "Cycle", "Temperature_C", "Stock_Price_USD", "VQE_Energy_Hartree", "PQC_Public_Key_Bytes", "PQC_Private_Key_Bytes"])
+        writer.writerow([
+            "Timestamp", "Cycle", "Temperature_C", "Stock_Price_USD", 
+            "VQE_Energy_Hartree", "PQC_Public_Key_Bytes", "PQC_Private_Key_Bytes"
+        ])
 
 def fetch_live_data(ticker_symbol):
     """Gathers real-time external conditions to drive simulation parameters."""
@@ -46,7 +50,6 @@ def fetch_live_data(ticker_symbol):
         live_stock_price = 293.82
         
     return live_temp, live_stock_price
-
 # =====================================================================
 # STREAMLIT USER INTERFACE & SIDEBAR CONTROLS
 # =====================================================================
@@ -114,8 +117,9 @@ with open(CSV_FILE_PATH, mode='a', newline='', encoding='utf-8') as f:
     ])
 
 # =====================================================================
-# GRID VISUALIZATION CANVAS GENERATOR
+# GRID VISUALIZATION CANVAS GENERATOR (PANEL 1: ACTIVE LIVE LABS)
 # =====================================================================
+st.subheader("📺 Real-Time Active Simulation Viewports")
 fig = plt.figure(figsize=(18, 5.5))
 
 # --- PLOT 1: PyTorch Optimization Curve (AgriTech) ---
@@ -172,14 +176,69 @@ ax3.bar_label(rects2, padding=3, fontsize=8)
 
 plt.tight_layout()
 st.pyplot(fig)
+# =====================================================================
+# 📊 INTEGRATED STREAMLIT HISTORICAL PERFORMANCE ANALYTICS (AUTOMATIC LOOPED PANEL)
+# =====================================================================
+st.write("---")
+st.header("📊 Post-Session Historical Telemetry Mapping")
+st.markdown("Analyze accumulated trends and baseline shifts over historical runtime simulation loops.")
 
-# Live Spreadsheet Logging preview rendering blocks
-st.subheader("📋 Dynamic Real-Time Logged Telemetry (Last 5 Execution Cycles)")
-if os.path.exists(CSV_FILE_PATH):
-    df_history = pd.read_csv(CSV_FILE_PATH)
-    st.dataframe(df_history.tail(5), use_container_width=True)
+if not os.path.exists(CSV_FILE_PATH):
+    st.info("🕒 Awaiting initial execution cycles to populate historical system log files.")
+else:
+    # Read our file changes inside the loop to redraw trends on every rerun step
+    df_analytics = pd.read_csv(CSV_FILE_PATH)
+    
+    if len(df_analytics) > 0:
+        fig_hist, (ax_h1, ax_h2) = plt.subplots(1, 2, figsize=(16, 5.5))
+        hist_cycles = df_analytics['Cycle'].values
+        
+        # --- PANEL 1: Historical VQE Molecular Energy Drift Map ---
+        vqe_energies_hist = df_analytics['VQE_Energy_Hartree'].values
+        temps_hist = df_analytics['Temperature_C'].values
+        
+        ax_h1.plot(hist_cycles, vqe_energies_hist, color='#00E676', lw=2.5, marker='o', label='VQE Convergence Energy')
+        ax_h1.set_title("🌱 AgriTech: Historical VQE Energy Variations", fontsize=11, fontweight='bold', pad=10)
+        ax_h1.set_xlabel("Execution Loop Cycles")
+        ax_h1.set_ylabel("System Energy (Hartree)", color='#00E676')
+        ax_h1.tick_params(axis='y', labelcolor='#00E676')
+        ax_h1.grid(True, linestyle=':', alpha=0.6)
+        
+        # Overlay ambient air temperature mapping using a twin axis layout
+        ax_h1_twin = ax_h1.twinx()
+        ax_h1_twin.plot(hist_cycles, temps_hist, color='#FF9100', lw=1.5, linestyle='--', marker='s', alpha=0.7, label='Live Temp (°C)')
+        ax_h1_twin.set_ylabel("Live Air Temperature (°C)", color='#FF9100')
+        ax_h1_twin.tick_params(axis='y', labelcolor='#FF9100')
+        
+        # --- PANEL 2: Cryptographic Payload Overhead Expansion Map ---
+        pub_bytes_hist = df_analytics['PQC_Public_Key_Bytes'].values
+        priv_bytes_hist = df_analytics['PQC_Private_Key_Bytes'].values
+        ct_bytes_hist = pub_bytes_hist - 96 
+        
+        ax_h2.plot(hist_cycles, pub_bytes_hist, color='#D500F9', lw=2.0, marker='^', label='ML-KEM Public Key')
+        ax_h2.plot(hist_cycles, priv_bytes_hist, color='#304FFE', lw=2.0, marker='v', label='ML-KEM Private Key')
+        ax_h2.plot(hist_cycles, ct_bytes_hist, color='#00B0FF', lw=1.5, linestyle=':', marker='d', label='ML-KEM Ciphertext')
+        
+        ax_h2.set_title("🏦 Finance: PQC Dynamic Key Layout Metrics", fontsize=11, fontweight='bold', pad=10)
+        ax_h2.set_xlabel("Execution Loop Cycles")
+        ax_h2.set_ylabel("Data Footprint Capacity (Bytes)")
+        ax_h2.grid(True, linestyle=':', alpha=0.6)
+        ax_h2.legend(loc="center right", framealpha=0.95, fontsize=9)
+        
+        plt.tight_layout()
+        st.pyplot(fig_hist)
+        
+        # 2. Display clean web-native data preview table
+        st.subheader("📋 Session Records Snapshot Summary")
+        available_columns = df_analytics.columns.tolist()
+        target_columns = ['Timestamp', 'Cycle', 'Temperature_C', 'VQE_Energy_Hartree']
+        display_columns = [col for col in target_columns if col in available_columns]
+        
+        st.dataframe(df_analytics[display_columns].tail(5), use_container_width=True)
 
-# Real-Time loop state execution control layers handling UI canvas updates
+# =====================================================================
+# LOOP EXECUTION REFRESH CONTROLLER
+# =====================================================================
 if sim_running:
     st.session_state.sim_cycle += 1
     time.sleep(refresh_speed)
