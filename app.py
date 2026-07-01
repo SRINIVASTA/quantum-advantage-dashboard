@@ -17,6 +17,8 @@ import torch.optim as optim
 import streamlit as st
 
 warnings.filterwarnings("ignore")
+
+# Define target workspace file paths inside the cloud sandbox repository
 CSV_FILE_PATH = "quantum_simulation_log.csv"
 
 def fetch_live_data(ticker_symbol="IBM"):
@@ -40,7 +42,7 @@ def fetch_live_data(ticker_symbol="IBM"):
     return live_temp, live_stock_price
 
 def run_main_dashboard():
-    """Main execution container wrapped safely to insulate pytest code collection checks."""
+    """Main execution container wrapped safely to insulate cloud compilation checks."""
     st.set_page_config(layout="wide", page_title="PyTorch Quantum Industry Simulation Dashboard")
     st.title("⚛️ PyTorch-Accelerated Quantum Industry Simulation Dashboard")
     st.markdown("Leveraging PyTorch tensor graphs and automatic differentiation engines to model macro, logistic, and security parameters.")
@@ -60,7 +62,8 @@ def run_main_dashboard():
     st.sidebar.header("🎛️ Dynamic Optimization Parameters")
     selected_ticker = st.sidebar.text_input("Finance Ticker Symbol Target", value="IBM")
     learning_rate = st.sidebar.slider("PyTorch Learning Rate (Optimizer Step Size)", min_value=0.01, max_value=0.5, value=0.1)
-    refresh_speed = st.sidebar.slider("Dashboard Auto-Refresh Interval (Seconds)", min_value=2, max_value=10, value=3)
+    
+    # CLOUD FIX: Remove manual time.sleep loops. Use a native structural reload controller checkbox instead.
     sim_running = st.sidebar.checkbox("Activate Continuous Live Execution Loop", value=True)
 
     if st.sidebar.button("🧹 Clear Logs & Reset to Cycle 1"):
@@ -143,7 +146,8 @@ def run_main_dashboard():
 
     ax3 = fig.add_subplot(133)
     metrics_labels = ['Public Key', 'Private Key', 'Ciphertext']
-    rsa_payloads = [256, 2048, 256]
+    rsa_pub, rsa_priv, rsa_ct = 256, 2048, 256
+    rsa_payloads = [rsa_pub, rsa_priv, rsa_ct]
     pqc_payloads = [pub_bytes, priv_bytes, ct_bytes]
     x = np.arange(len(metrics_labels))
     width = 0.35
@@ -161,9 +165,9 @@ def run_main_dashboard():
     st.pyplot(fig)
     
     # Delegate rendering parameters to Block 3
-    render_historical_analytics(sim_running, refresh_speed)
+    render_historical_analytics(sim_running)
 
-def render_historical_analytics(sim_running, refresh_speed):
+def render_historical_analytics(sim_running):
     """Renders historical analytics maps sequentially inside the dashboard layout."""
     st.write("---")
     st.header("📊 Post-Session Historical Telemetry Mapping")
@@ -213,9 +217,9 @@ def render_historical_analytics(sim_running, refresh_speed):
             st.dataframe(df_analytics[display_columns].tail(5), use_container_width=True)
 
     # Delegate to Block 4
-    render_download_and_loop(sim_running, refresh_speed)
+    render_download_and_loop(sim_running)
 
-def render_download_and_loop(sim_running, refresh_speed):
+def render_download_and_loop(sim_running):
     """Handles raw data byte string compiling and forces the page loop rerun step."""
     st.write("---")
     st.subheader("💾 Export Simulated Telemetry Ledger")
@@ -231,15 +235,13 @@ def render_download_and_loop(sim_running, refresh_speed):
             mime="text/csv"
         )
 
-    # Core execution loop rerun controller logic
+    # CLOUD ENHANCEMENT: If selected, force a cloud-safe client rerun.
+    # Because we removed the 'time.sleep()' blocking thread command, Streamlit Cloud's 
+    # engine can compile the layout without timing out or buffering forever.
     if sim_running:
         st.session_state.sim_cycle += 1
-        time.sleep(refresh_speed)
         st.rerun()
 
-# =====================================================================
-# THE CRITICAL PYTEST ENTRY GATEWAY PROTECTION LAYER
-# =====================================================================
-# This is what blocks python from freezing during pytest collection!
+# Complete the execution entry point gate for Pytest collection safety
 if __name__ == "__main__":
     run_main_dashboard()
