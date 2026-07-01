@@ -3,8 +3,9 @@ import csv
 import pytest
 import torch
 import streamlit as st
+import pandas as pd
 
-# Initialize a safe mock framework for Streamlit's state memory matrix
+# Safe fallback initialization layout structure to insulate Streamlit context lookup exceptions
 if "sim_cycle" not in st.session_state:
     st.session_state.sim_cycle = 1
 
@@ -24,6 +25,32 @@ def test_csv_ledger_headers():
         "VQE_Energy_Hartree", "PQC_Public_Key_Bytes", "PQC_Private_Key_Bytes"
     ]
     assert headers == expected_headers, f"Ledger columns mismatch! Found headers: {headers}"
+
+def test_csv_row_dynamism():
+    """Verifies that your spreadsheet data is actively changing and not stuck on flat parameters."""
+    assert os.path.exists(CSV_FILE_PATH), "No data file exists to evaluate dynamism metrics."
+    df = pd.read_csv(CSV_FILE_PATH)
+    
+    if len(df) >= 3:
+        unique_vqe_count = df['VQE_Energy_Hartree'].nunique()
+        unique_pub_count = df['PQC_Public_Key_Bytes'].nunique()
+        unique_priv_count = df['PQC_Private_Key_Bytes'].nunique()
+        
+        assert unique_vqe_count > 1, "INTEGRATION ERROR: VQE Energy field is flatlined!"
+        assert unique_pub_count > 1, "INTEGRATION ERROR: PQC Public Key size field is flatlined!"
+        assert unique_priv_count > 1, "INTEGRATION ERROR: PQC Private Key size field is flatlined!"
+    else:
+        pytest.skip("Awaiting more rows to calculate variance.")
+
+def test_csv_chronology_safety():
+    """Verifies that your Cycle counter maps cleanly without jumping backward or resetting to 1."""
+    assert os.path.exists(CSV_FILE_PATH), "No data file exists to evaluate chronology metrics."
+    df = pd.read_csv(CSV_FILE_PATH)
+    
+    if len(df) >= 2:
+        cycles = df['Cycle'].values
+        for i in range(1, len(cycles)):
+            assert cycles[i] >= cycles[i-1], f"CHRONOLOGY ERROR: Broken sequence at row {i} ({cycles[i-1]} -> {cycles[i]})"
 
 def test_pytorch_vqe_gradient_descent():
     """Guarantees the PyTorch engine handles gradient calculation and structural loss reductions."""
