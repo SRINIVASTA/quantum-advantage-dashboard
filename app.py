@@ -249,3 +249,20 @@ if sim_running:
     st.session_state.sim_cycle += 1
     time.sleep(refresh_speed)
     st.rerun()
+
+st.write("---")
+st.subheader("💾 Export Simulated Telemetry Ledger")
+st.markdown("Download the complete historical dataset generated across all execution cycles for local analytical review.")
+
+if not os.path.exists(CSV_FILE_PATH):
+    st.warning("⚠️ No database log found. Let the simulation run for a few cycles to generate exportable telemetry records.")
+else:
+    with open(CSV_FILE_PATH, "r", encoding="utf-8") as f:
+        csv_data_stream = f.read()
+    
+    st.download_button(
+        label="📥 Download Telemetry Spreadsheet (CSV)",
+        data=csv_data_stream,
+        file_name=f"quantum_simulation_export_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+        mime="text/csv"
+    )
