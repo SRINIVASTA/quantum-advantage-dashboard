@@ -19,6 +19,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest -r requirements.txt
 
+    # GATING PROTECTION: If pytest catches flatlines or structural breaks,
+    # it returns code 1, immediately breaking the pipeline and blocking deployment.
     - name: Run verification test routines
       run: |
         pytest -v -p no:cacheprovider test_app.py
