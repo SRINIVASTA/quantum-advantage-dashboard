@@ -1,7 +1,7 @@
 # ⚛️ PyTorch-Accelerated Quantum Industry Simulation Dashboard
 
 [![Created By](https://shields.io)](https://github.com/SRINIVASTA)
-[![streamlit](https://shields.io)](https://quantum-advantage-dashboard-acqhbgjxcxv3dv8yxe5shz.streamlit.app/)
+[![Streamlit](https://shields.io)](https://quantum-advantage-dashboard-acqhbgjxcxv3dv8yxe5shz.streamlit.app/)
 [![Engine](https://shields.io)](https://pytorch.org)
 [![Accelerator](https://shields.io)](https://nvidia.com)
 
