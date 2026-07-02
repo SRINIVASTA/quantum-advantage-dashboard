@@ -1,20 +1,18 @@
 # ⚛️ PyTorch-Accelerated Quantum Industry Simulation Dashboard
 
-[![Created By](https://shields.io)](#-author-and-credits)
-[![Live Dashboard](https://shields.io)](https://streamlit.app)
+[![Created By](https://shields.io)](#Srinivasta)
+[![Live Dashboard](https://shields.io)](https://quantum-advantage-dashboard-acqhbgjxcxv3dv8yxe5shz.streamlit.app/)
 [![Engine](https://shields.io)](https://pytorch.org)
 [![Accelerator](https://shields.io)](https://nvidia.com)
 
 A hybrid quantum-classical simulation framework leveraging PyTorch tensor graphs and automatic differentiation engines. Created by **Srinivasta**, this system ingests multi-domain telemetry to model environmental, logistics, and post-quantum cryptographic security parameters in real time.
 
-This project was verified and presented at **Quantumizers Meetup 1 (Foundations of Quantum Computing)** on **4 July 2026** at the **Ratan Tata Innovation Hub (RTIH) Visakhapatnam Spoke**.
 
 ---
 
 ## 🔗 Production Hubs
 
-* **Production Live Viewport:** [Live Streamlit Application](https://streamlit.app)
-* **Source Architecture Base:** [GitHub Repository Main Frame](https://github.com)
+* **Production Live Viewport:** [Live Streamlit Application](https://quantum-advantage-dashboard-acqhbgjxcxv3dv8yxe5shz.streamlit.app/)
 
 ---
 
