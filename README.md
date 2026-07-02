@@ -1,9 +1,9 @@
 # ⚛️ PyTorch-Accelerated Quantum Industry Simulation Dashboard
 
-[![Created By](https://shields.io)](https://github.com/SRINIVASTA)
-[![Streamlit](https://shields.io)](https://quantum-advantage-dashboard-acqhbgjxcxv3dv8yxe5shz.streamlit.app/)
-[![Engine](https://shields.io)](https://pytorch.org)
-[![Accelerator](https://shields.io)](https://nvidia.com)
+- [![Created By](https://shields.io)](https://github.com/SRINIVASTA)
+- [![Streamlit](https://shields.io)](https://quantum-advantage-dashboard-acqhbgjxcxv3dv8yxe5shz.streamlit.app/)
+- [![Engine](https://shields.io)](https://pytorch.org)
+- [![Accelerator](https://shields.io)](https://nvidia.com)
 
 A hybrid quantum-classical simulation framework leveraging PyTorch tensor graphs and automatic differentiation engines. Created by **Srinivasta**, this system ingests multi-domain telemetry to model environmental, logistics, and post-quantum cryptographic security parameters in real time.
 
@@ -93,4 +93,10 @@ The pipeline continuously updates an active simulation panel tracking three targ
 
 ## ✒️ Author and Credits
 
-* **Lead Architect & Developer:** [Srinivasta](https://github.com)
+* **Lead Architect & Developer:** [Srinivasta](https://github.com/SRINIVASTA)
+
+### Connect with Me
+- [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/srinivas-t-a-557637119/)  
+- [![Kaggle](https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white)](https://www.kaggle.com/srinivasta)  
+- [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:tasrinivass@gmail.com)  
+- [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/srinivasta)
